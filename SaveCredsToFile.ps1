@@ -53,6 +53,14 @@
 
 #>
 
+Param (
+  # Declare the $FileName parameter
+  [Parameter(Mandatory=$false, ValueFromPipeline=$true)]
+  #[ValidateLength(1, 255)] - no need, pattern includes this
+  [ValidatePattern('^(?!^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9]|CLOCK\$|RECOVER\.|SYSTEM\$|URL:|)$)[^\x00-\x1F\/\\:*?"<>|]{1,255}$')]
+  [string]$FileName
+)
+
 function GetNTFSFileName {
     param (
         [Parameter(Mandatory=$false)]
@@ -70,16 +78,6 @@ function GetNTFSFileName {
         }
     } while ($true)
 }
-
-
-
-Param (
-  # Declare the $FileName parameter
-  [Parameter(Mandatory=$false, ValueFromPipeline=$true)]
-  #[ValidateLength(1, 255)] - no need, pattern includes this
-  [ValidatePattern('^(?!^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9]|CLOCK\$|RECOVER\.|SYSTEM\$|URL:|)$)[^\x00-\x1F\/\\:*?"<>|]{1,255}$')]
-  [string]$FileName
-)
 
 if (-not $FileName) {
     $FileName = GetNTFSFileName
